@@ -1,4 +1,20 @@
 #!/bin/bash
+RESP=data/SFS_Responses.csv
+if test -f "$RESP"; then
+    echo "$RESP exists." 
+else
+    "RESP_ID","RESP_SURVEY_ID","RESP_Q_ID","RESP_POINTS","RESP_COMMENT","RESP_FORM_KEY" >> "data/SFS_Responses.csv"
+    echo "Empty $RESP created."
+fi
+
+SUR=data/SFS_Responses.csv
+if test -f "$SUR"; then
+    echo "$SUR exists." 
+else
+    "RESP_ID","RESP_SURVEY_ID","RESP_Q_ID","RESP_POINTS","RESP_COMMENT","RESP_FORM_KEY" >> "data/SFS_Surveyss.csv"
+    echo "Empty $SUR created."
+fi
+
 for file in data/SFS_Res*
 do
     in2csv "$file" > "data/temp.csv"
