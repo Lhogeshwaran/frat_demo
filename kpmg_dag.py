@@ -22,8 +22,9 @@ dag = DAG(
     tags=['example']
 )
 
+prepare_csvs_script = '/Users/loki/UTS_MDSI/code_practices/loki_kpmg/data_check.sh'
 t1 = BashOperator(
     task_id='prepare_csvs',
-    bash_command="/Users/loki/UTS_MDSI/code_practices/loki_kpmg/data_check.sh",
+    bash_command=prepare_csvs_script,
     dag=dag
 )
