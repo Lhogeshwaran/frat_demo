@@ -11,14 +11,15 @@ class PreProcessing:
     def __init__(self, df):
 
         self.df = df
-        self.res_fields = {'category':['RESP_SURVEY_ID', 'RESP_Q_ID',
-                            'datetime':['RESP_DATE']]}
+        self.res_fields = {'category':['RESP_SURVEY_ID', 'RESP_Q_ID'],
+                            'datetime':['RESP_DATE']}
         self.sur_fields = {'category':['SUR_YEAR', 'SUR_SUBJECT_CODE',
                             'SUR_SUBJECT_ID', 'SUR_SUBJECT_NAME',
                             'SUR_FACULTY_ID', 'SUR_FACULTY_NAME',
                             'SUR_ACADUNIT_ID', 'SUR_ACADUNIT_NAME']}
 
     def dtype_modifier(self, fields=1):
+        
         '''
         Method to convert datatype for memory usage optimization.
         params:
@@ -45,6 +46,14 @@ class PreProcessing:
             except:
                 KeyError
                 print(f'Warning: Column "{i}" expected but not present.')
+
+        for i in fields['integer']:
+            try:
+                self.df[i] = self.df[i].astype('int64')
+            except:
+                ValueError
+                
+        return self.df
 
 
 class FeatureEngineering(PreProcessing):

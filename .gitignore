@@ -4,5 +4,6 @@ data/
 FRAT
 *.xlsx
 2_extract.sh
+fratutils/__pycache__
 
 
