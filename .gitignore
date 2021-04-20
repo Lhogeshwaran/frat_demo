@@ -3,5 +3,6 @@ data/
 .DS_Store
 FRAT
 *.xlsx
+2_extract.sh
 
 

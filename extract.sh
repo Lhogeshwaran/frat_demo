@@ -2,6 +2,8 @@
 
 source ~/.virtualenvs/airfloweco/bin/activate
 
+mkdir data/temp
+
 for file in /Users/loki/UTS_MDSI/code_practices/loki_kpmg/data/SFS_Surv*
 do
     in2csv $file > "/Users/loki/UTS_MDSI/code_practices/loki_kpmg/data/temp/temp.csv"
@@ -18,7 +20,7 @@ do
     csvsql --db postgresql://postgres:$1@localhost/airfloweco --insert --no-create data/sfs_resp.csv 
 done
 
-rm data/temp/*.csv
+rm -rf data/temp
 rm data/*.csv
 
 deactivate
