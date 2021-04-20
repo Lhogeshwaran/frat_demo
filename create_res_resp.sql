@@ -8,7 +8,7 @@ CREATE TABLE public.sfs_resp
     resp_survey_id numeric NOT NULL,
     resp_q_id numeric NOT NULL,
     resp_points numeric,
-    resp_comment boolean,
+    resp_comment character varying,
     resp_form_key character varying COLLATE pg_catalog."default" NOT NULL,
 	
 	CONSTRAINT sfs_resppk PRIMARY KEY (resp_id),
