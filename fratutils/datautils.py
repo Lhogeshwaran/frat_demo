@@ -1,7 +1,12 @@
 import pandas as pd
 
 
-Class PreProcessing:
+class PreProcessing:
+    '''
+    Contains transformation methods.
+    params:
+        df: A pandas DataFrame object.
+    '''
 
     def __init__(self, df):
 
@@ -14,6 +19,13 @@ Class PreProcessing:
                             'SUR_ACADUNIT_ID', 'SUR_ACADUNIT_NAME']}
 
     def dtype_modifier(self, fields=1):
+        '''
+        Method to convert datatype for memory usage optimization.
+        params:
+            fields: A dict object like "{'category:['colnames'], 'datetime':['colnames']}
+        Returns:
+            A pandas DataFrame object.
+        '''
 
         if fields==1:
             fields = self.res_fields
@@ -35,7 +47,7 @@ Class PreProcessing:
                 print(f'Warning: Column "{i}" expected but not present.')
 
 
-Class FeatureEngineering(PreProcessing):
+class FeatureEngineering(PreProcessing):
 
         def __init__(self, df):
 
