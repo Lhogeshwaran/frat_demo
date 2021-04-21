@@ -6,7 +6,7 @@ import sys
 import fratutils
 from scipy import stats
 
-engine = create_engine('postgresql+psycopg2://postgres:Loki@1990@localhost/airfloweco')
+engine = create_engine('postgresql+psycopg2://postgres:<password>@localhost/airfloweco')
 resp = pd.read_sql_query('SELECT * FROM sfs_resp', con=engine)
 surv = pd.read_sql_query('SELECT * FROM sfs_surv', con=engine)
 
