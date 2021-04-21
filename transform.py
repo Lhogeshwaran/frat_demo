@@ -142,3 +142,59 @@ def plot_t_test(q_id):
 
 plot_t_test(3131)
 plot_t_test(3200)
+
+
+# Sentiment analysis
+from nltk.corpus import stopwords
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+from collections import Counter
+from textblob import Word
+
+
+## Core-items :: 3707, 3708, 3131, 3709, 1053, 1070
+def check_is_core(x):
+
+    return 1 if x in [3707, 3708, 3131, 3709, 1053, 1070] else 0 
+
+
+
+resp['is_core'] = resp['resp_q_id'].apply(check_is_core)
+resp_sent = resp[resp['is_core']==1]
+
+resp_sent['resp_comment'] = resp_sent['resp_comment'].astype(str)
+resp_sent['resp_comment_processed'] = resp_sent['resp_comment'].apply(lambda x: " ".join(x.lower() for x in x.split()))
+resp_sent['resp_comment_processed'] = resp_sent['resp_comment_processed'].str.replace('[^\w\s]','')
+stop = stopwords.words('english')
+frat_stop = [line.strip() for line in open('data/frat_stop_words.txt')]
+stop = stop + frat_stop
+resp_sent['resp_comment_processed'] = resp_sent['resp_comment_processed'].apply(lambda x: " ".join(x for x in x.split() if x not in stop))
+resp_sent['resp_comment_processed'] = resp_sent['resp_comment_processed'].apply(lambda x: " ".join([Word(word).lemmatize() for word in x.split()]))
+
+# Sentiment analysis and banding
+analyser = SentimentIntensityAnalyzer()
+
+
+def sentiment_analyzer_scores(sentence):
+    return analyser.polarity_scores(sentence)
+
+
+# Get sentiment score for each feedback
+resp_sent['sent_score'] = resp_sent[resp_sent['resp_qualitative_yes']==1]['resp_comment_processed'].apply(sentiment_analyzer_scores)
+resp_sent['sent_neg'] = resp_sent[resp_sent['resp_qualitative_yes']==1]['sent_score'].apply(lambda x: x['neg'])
+resp_sent['seng_neu'] = resp_sent[resp_sent['resp_qualitative_yes']==1]['sent_score'].apply(lambda x: x['neu'])
+resp_sent['sent_pos'] = resp_sent[resp_sent['resp_qualitative_yes']==1]['sent_score'].apply(lambda x: x['pos'])
+resp_sent['sent_comp'] = resp_sent[resp_sent['resp_qualitative_yes']==1]['sent_score'].apply(lambda x: x['compound'])
+resp_sent.drop(columns='sent_score', inplace=True)
+
+
+# Function to categorize the sentiment bands based on info from github source
+def sent_band(val):
+    if val >= 0.05:
+        return 'Positive'
+    elif val <= -0.05:
+        return 'Negative'
+    return 'Neutral'
+
+
+resp_sent['sent_band'] = resp_sent[resp_sent['resp_qualitative_yes']==1]['sent_comp'].apply(lambda x: sent_band(x))
+resp_sent[(resp_sent['resp_item_type']=='O') & (resp_sent['has_qualitative_resp']==1)].head()
