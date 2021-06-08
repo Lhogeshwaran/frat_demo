@@ -58,7 +58,7 @@ class PreProcessing:
         return self.df
 
 
-class FeatureEngineering:
+class PreProcessingText:
 
     def __init__(self):
         self.cfg = self._read_configs()
