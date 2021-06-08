@@ -1,5 +1,6 @@
 import pandas as pd
 import json
+from nltk.corpus import stopwords
 
 
 class PreProcessing:
@@ -60,9 +61,17 @@ class PreProcessing:
 class FeatureEngineering:
 
     def __init__(self):
-        with open('fratutils/core_items.json') as f:
-            f = json.loads(f.read())
-        self.core_items = f['core_items']
+        self.cfg = self._read_configs()
+        self.core_items = self.cfg['core_items']
+        self.all_stopwords = stopwords.words('english') + self.cfg['frat_stopwords']
+
+    def _read_configs(self):
+        with open('fratutils/manual_configs.json') as f:
+            cfg = json.loads(f.read())
+        return cfg
 
     def check_is_core(self, x):
         return 1 if x in self.core_items else 0
+
+    def remove_stopwords(self, x):
+        return " ".join(x for x in x.split() if x not in self.all_stopwords)
