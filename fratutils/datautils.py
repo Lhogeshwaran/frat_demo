@@ -58,12 +58,11 @@ class PreProcessing:
         return self.df
 
 
-class PreProcessingText:
+class PreProcessing:
 
     def __init__(self):
         self.cfg = self._read_configs()
         self.core_items = self.cfg['core_items']
-        self.all_stopwords = stopwords.words('english') + self.cfg['frat_stopwords']
 
     def _read_configs(self):
         with open('fratutils/manual_configs.json') as f:
@@ -72,6 +71,13 @@ class PreProcessingText:
 
     def check_is_core(self, x):
         return 1 if x in self.core_items else 0
+
+
+class PreProcessingText(PreProcessing):
+
+    def __init__(self):
+        PreProcessing.__init__(self)
+        self.all_stopwords = stopwords.words('english') + self.cfg['frat_stopwords']
 
     def remove_stopwords(self, x):
         return " ".join(x for x in x.split() if x not in self.all_stopwords)
