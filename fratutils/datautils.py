@@ -72,6 +72,10 @@ class PreProcessing:
     def check_is_core(self, x):
         return 1 if x in self.core_items else 0
 
+    def check_text_resp(self, x):
+        '''Checks if the text field has text or empty.'''         
+        return 0 if str(x)=='nan' or str(x)=='' else 1
+
 
 class PreProcessingText(PreProcessing):
 
