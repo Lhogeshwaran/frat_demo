@@ -1,4 +1,5 @@
 import pandas as pd
+import json
 
 
 class PreProcessing:
@@ -56,15 +57,12 @@ class PreProcessing:
         return self.df
 
 
-class FeatureEngineering(PreProcessing):
+class FeatureEngineering:
 
-        def __init__(self, df):
+    def __init__(self):
+        with open('fratutils/core_items.json') as f:
+            f = json.loads(f.read())
+        self.core_items = f['core_items']
 
-            PreProcessing.__init__(self, df)
-
-        def get_perc(self):
-
-            try:
-                return round((self.df['SUR_RESP_COUNT'] / self.df['SUR_STUDENT_COUNT']), 2)
-            except:
-                ZeroDivisionError
+    def check_is_core(self, x):
+        return 1 if x in self.core_items else 0
