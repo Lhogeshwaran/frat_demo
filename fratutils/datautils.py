@@ -9,7 +9,7 @@ class PreProcessing:
         self.cfg = self._read_configs()
 
     def _read_configs(self):
-        with open('fratutils/manual_configs.json') as f:
+        with open('fratutils/frat_configs.json') as f:
             cfg = json.loads(f.read())
         return cfg
 
