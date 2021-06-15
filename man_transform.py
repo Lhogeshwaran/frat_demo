@@ -22,4 +22,6 @@ resp['sent_pos'] = resp[resp['has_text']==1]['sent_score'].apply(lambda x: x['po
 resp['sent_comp'] = resp[resp['has_text']==1]['sent_score'].apply(lambda x: x['compound'])
 resp.drop(columns='sent_score', inplace=True)
 
-resp['sent_band'] = resp[resp['has_text']==1]['sent_comp'].apply(lambda x: fratutils.senttoputils.Sentiment().get_sent_band(x))
+resp['sent_band'] = resp['sent_comp'].apply(lambda x: fratutils.senttoputils.Sentiment().get_sent_band)
+
+resp['topic_score'] = resp['resp_comment_processed'].apply(lambda x: fratutils.senttoputils.Topic().topic_scorer(x))

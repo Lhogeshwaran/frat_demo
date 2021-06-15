@@ -1,5 +1,6 @@
 from nltk.corpus.reader import xmldocs
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+from .datautils import PreProcessing
 
 class Sentiment:
 
@@ -16,4 +17,21 @@ class Sentiment:
         elif x <= neg:
             return 'Negative'
         return 'Neutral'
+
+
+class Topic(PreProcessing):
+
+    def __init__(self):
+        PreProcessing.__init__(self)
+        self.D = dict(zip(self.cfg['frat_topics'], [0]*len(self.cfg['frat_topics'])))
+
+    def topic_scorer(self, x):
+            
+        for i in x.split(): 
+            if i in self.D.keys():
+                self.D[x[i]] = 1
     
+        if any(self.D.values()) != 1:
+            self.D['others'] = 1
+    
+        return self.D

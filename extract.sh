@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ~/.virtualenvs/airfloweco/bin/activate
+source /Users/loki/.virtualenvs/airfloweco/bin/activate
 
 mkdir data/temp
 
