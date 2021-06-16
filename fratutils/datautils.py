@@ -14,7 +14,9 @@ class PreProcessing:
         return cfg
 
     def check_is_core(self, x):
-        return 1 if x in self.cfg['core_items'] else 0
+        if isinstance(x, int):
+            return 1 if x in self.cfg['core_items'] else 0
+        raise TypeError(f'integer argument expected, got {type(x)}')
 
     def check_text_resp(self, x):
         '''Checks if the text field has text or empty.'''         
