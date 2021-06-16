@@ -5,5 +5,5 @@ FRAT
 *.xlsx
 2_extract.sh
 fratutils/__pycache__
-
+__pycache__
 
